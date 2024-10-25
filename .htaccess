@@ -1,0 +1,26 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Alt alan adı (subdomain) kontrolü
+    RewriteCond %{HTTP_HOST} ^subdomain\. [NC]
+    RewriteCond %{REQUEST_URI} !^/subdomain
+
+    # Alt alan adı ve URL'yi Laravel'e yönlendir
+    RewriteRule ^(.*)$ /subdomain/$1 [L]
+
+    # "public" klasörüne yönlendirme
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # Laravel için standart yönlendirme
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php81” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
